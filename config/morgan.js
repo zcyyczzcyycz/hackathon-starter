@@ -3,7 +3,6 @@ const Bowser = require('bowser');
 const fs = require('fs');
 const path = require('path');
 
-// Color definitions for console output
 const colors = {
   red: '\x1b[31m',
   green: '\x1b[32m',
@@ -30,7 +29,7 @@ logger.token('short-date', () => {
   return now.toLocaleString('sv').replace(',', '');
 });
 
-// 解析用户代理 parsed-user-agent‌
+// 解析客户端 User-Agent，返回「操作系统 / 浏览器 版本」（如 Windows/Chrome v120）
 logger.token('parsed-user-agent', (req) => {
   const userAgent = req.headers['user-agent'];
   if (!userAgent) return 'Unknown';
@@ -45,7 +44,7 @@ logger.token('parsed-user-agent', (req) => {
   return `${osName}/${browserName} v${majorVersion}`;
 });
 
-// 动态计算实际发送的数据大小
+// 计算响应数据大小，格式化显示为 xx.xxKB
 logger.token('bytes-sent', (req, res) => {
   // Check for original uncompressed size first
   let length =
@@ -77,11 +76,11 @@ logger.token('bytes-sent', (req, res) => {
   return '-';
 });
 
-// 标识响应是否完整发送
+// 服务器是否把响应完整地传给了客户端
 logger.token('transfer-state', (req, res) => {
-  if (!res._header) return 'NO_RESPONSE';
-  if (res.finished) return 'COMPLETE';
-  return 'PARTIAL';
+  if (!res._header) return 'NO_RESPONSE'; // 完全没响应
+  if (res.finished) return 'COMPLETE'; // 响应完成
+  return 'PARTIAL'; // 部分响应
 });
 
 // 更加tokens生成自定义日志
@@ -121,42 +120,31 @@ const captureContentLength = (req, res, next) => {
 
 // 定义两个独立的写入流
 const stdoutStream = fs.createWriteStream(
-  path.join(process.cwd(), 'logs/out.log'), 
-  { flags: 'a' } // 追加模式
+  path.join(process.cwd(), 'logs/out.log'),
+  { flags: 'a' }, // 追加模式
 );
-const stderrStream = fs.createWriteStream(
-  path.join(process.cwd(), 'logs/error.log'),
-  { flags: 'a' }
-);
+const stderrStream = fs.createWriteStream(path.join(process.cwd(), 'logs/error.log'), { flags: 'a' });
 
 exports.morganLogger = () => (req, res, next) => {
-  if (res.statusCode < 400) {
-    captureContentLength(req, res, () => {
-      logger(morganFormat, {
-        immediate: false,
-        stream: stdoutStream,
-      })(req, res, next);
-    });
-  }else{
-    captureContentLength(req, res, () => {
-      logger(morganFormat, {
-        immediate: false,
-        stream: stderrStream
-      })(req, res, next);
-    
-    });
-  }
-
+  captureContentLength(req, res, () => {
+    logger(morganFormat, {
+      immediate: false,
+      stream: {
+        write: (log) => {
+          const targetStream = res.statusCode < 400 ? stdoutStream : stderrStream;
+          targetStream.write(log);
+        },
+      },
+    })(req, res, next);
+  });
 };
 
 fs.watchFile(path.join(process.cwd(), 'logs/out.log'), (curr) => {
-  if (curr.size > 1024 )  fs.writeFileSync(path.join(process.cwd(), 'logs/out.log'), ''); // 1KB阈值^[6]
-}) 
+  if (curr.size > 1024 * 1024) fs.writeFileSync(path.join(process.cwd(), 'logs/out.log'), ''); // 1MB阈值^[6]
+});
 fs.watchFile(path.join(process.cwd(), 'logs/error.log'), (curr) => {
-  if (curr.size > 1024)  fs.writeFileSync(path.join(process.cwd(), 'logs/error.log'), ''); // 1KB阈值^[6]
-}) 
-
-
+  if (curr.size > 1024 * 1024) fs.writeFileSync(path.join(process.cwd(), 'logs/error.log'), ''); // 1MB阈值^[6]
+});
 
 // Expose for testing
 exports._getMorganFormat = getMorganFormat;

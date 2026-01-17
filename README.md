@@ -168,9 +168,9 @@ _What to get and configure:_
 
 - ngrok and HTTPS
   If you want to use some API that needs HTTPS to work (for example Github or Facebook),
-  you will need to download [ngrok](https://ngrok.com/). Start ngrok, set your BASE_URL to the forwarding address (i.e `https://3ccb-1234-abcd.ngrok-free.app` ), and use the forwarding address to access your application. If you are using a proxy like ngrok, you may get a CSRF mismatch error if you try to access the app at `http://localhost:8080` instead of the https://...ngrok-free.app address.
+  you will need to download [ngrok](https://ngrok.com/). Start ngrok, set your BASE_URL to the forwarding address (i.e `https://3ccb-1234-abcd.ngrok-free.app` ), and use the forwarding address to access your application. If you are using a proxy like ngrok, you may get a CSRF mismatch error if you try to access the app at `http://localhost:3000` instead of the https://...ngrok-free.app address.
 
-  After installing or downloading the standalone ngrok client you can start ngrok to intercept the data exchanged on port 8080 with `./ngrok http 8080` in Linux or `ngrok http 8080` in Windows.
+  After installing or downloading the standalone ngrok client you can start ngrok to intercept the data exchanged on port 3000 with `./ngrok http 3000` in Linux or `ngrok http 3000` in Windows.
 
 **Step 3:** Develop your application and customize the experience
 
@@ -211,9 +211,9 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - Enter `localhost` under _App Domains_
 - Choose a **Category** that best describes your app
 - Click on **+ Add Platform** and select **Website**
-- Enter your BASE*URL value (i.e. `http://localhost:8080`, etc) under \_Site URL*
+- Enter your BASE*URL value (i.e. `http://localhost:3000`, etc) under \_Site URL*
 - Click on the _Settings_ tab in the left nav under Facebook Login
-- Enter your BASE_URL value followed by /auth/facebook/callback (i.e. `http://localhost:8080/auth/facebook/callback` ) under Valid OAuth redirect URIs
+- Enter your BASE_URL value followed by /auth/facebook/callback (i.e. `http://localhost:3000/auth/facebook/callback` ) under Valid OAuth redirect URIs
 
 **Note:** After a successful sign-in with Facebook, a user will be redirected back to the home page with appended hash `#_=_` in the URL. It is _not_ a bug. See this [Stack Overflow](https://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url) discussion for ways to handle it.
 
@@ -225,7 +225,7 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - Click on **My Apps** in the top menu
 - Click the **Create A New App** button
 - Enter _App Name_, _Welcome page url_,
-- For **Redirect URI**: your BASE_URL value followed by /auth/foursquare/callback (i.e. `http://localhost:8080/auth/foursquare/callback` )
+- For **Redirect URI**: your BASE_URL value followed by /auth/foursquare/callback (i.e. `http://localhost:3000/auth/foursquare/callback` )
 - Click **Save Changes**
 - Copy and paste _Client ID_ and _Client Secret_ keys into `.env` file
 
@@ -236,8 +236,8 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - Go to <a href="https://github.com/settings/profile" target="_blank">Account Settings</a>
 - Select **Developer settings** from the sidebar
 - Then click on **OAuth Apps** and then on **Register new application**
-- Enter _Application Name_ and _Homepage URL_. Enter your BASE_URL value (i.e. `http://localhost:8080`, etc) as the homepage URL.
-- For _Authorization Callback URL_: your BASE_URL value followed by /auth/github/callback (i.e. `http://localhost:8080/auth/github/callback` )
+- Enter _Application Name_ and _Homepage URL_. Enter your BASE_URL value (i.e. `http://localhost:3000`, etc) as the homepage URL.
+- For _Authorization Callback URL_: your BASE_URL value followed by /auth/github/callback (i.e. `http://localhost:3000/auth/github/callback` )
 - Click **Register application**
 - Now copy and paste _Client ID_ and _Client Secret_ keys into `.env` file
 
@@ -258,8 +258,8 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - Fill out the required fields then click on **Save**
 - In the _Create Client ID_ modal dialog:
 - **Application Type**: Web Application
-- **Authorized Javascript origins**: set to your BASE_URL value (i.e. `http://localhost:8080`, etc)
-- **Authorized redirect URI**: set to your BASE_URL value followed by /auth/google/callback (i.e. `http://localhost:8080/auth/google/callback` )
+- **Authorized Javascript origins**: set to your BASE_URL value (i.e. `http://localhost:3000`, etc)
+- **Authorized redirect URI**: set to your BASE_URL value followed by /auth/google/callback (i.e. `http://localhost:3000/auth/google/callback` )
 - Click on **Create Client ID** button
 - Copy and paste _Client ID_ and _Client secret_ keys into `.env`
 
@@ -278,7 +278,7 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - Copy the **Client ID** and **Client Secret** (you may need to "reset" the client secret to obtain it for the first time), then paste them into your `.env` file as `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET`, or set them as environment variables.
 - In the left sidebar, click on **OAuth2** > **URL Generator**.
 - Under **Scopes**, select `identify` and `email`.
-- Under **Redirects**, add your BASE_URL value followed by `/auth/discord/callback` (i.e. `http://localhost:8080/auth/discord/callback`).
+- Under **Redirects**, add your BASE_URL value followed by `/auth/discord/callback` (i.e. `http://localhost:3000/auth/discord/callback`).
 - Save changes.
 
 <hr>
@@ -308,8 +308,8 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - _It may ask you to sign in once again_
 - Click **+ Add New Application** button
 - Fill out all the _required_ fields
-- **OAuth 2.0 Redirect URLs**: your BASE_URL value followed by /auth/linkedin/callback (i.e. `http://localhost:8080/auth/linkedin/callback` )
-- **JavaScript API Domains**: your BASE_URL value (i.e. `http://localhost:8080`, etc).
+- **OAuth 2.0 Redirect URLs**: your BASE_URL value followed by /auth/linkedin/callback (i.e. `http://localhost:3000/auth/linkedin/callback` )
+- **JavaScript API Domains**: your BASE_URL value (i.e. `http://localhost:3000`, etc).
 - For **Default Application Permissions** make sure at least the following is checked:
 - `r_basicprofile`
 - Finish by clicking **Add Application** button
@@ -374,7 +374,7 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - Sign up or sign in to your trakt.tv account and go to <a href="https://trakt.tv/oauth/applications" target="_blank">Trakt.tv Applications</a>.
 - Create a new application and fill in the required fields:
   - **Name**: Your app name.
-  - **Redirect URI**: Set to your BASE_URL value followed by `/auth/trakt/callback` (i.e. `http://localhost:8080/auth/trakt/callback` or `ngrokURL/auth/trakt/callback`)
+  - **Redirect URI**: Set to your BASE_URL value followed by `/auth/trakt/callback` (i.e. `http://localhost:3000/auth/trakt/callback` or `ngrokURL/auth/trakt/callback`)
   - Leave the JavaScript origins blank as we won't be using client-side API calls.
 - Click **Save App**.
 - Copy and paste the **Client ID** and **Client Secret** into your `.env` file as `TRAKT_ID` and `TRAKT_SECRET` or set them as your environment variables.
@@ -386,7 +386,7 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - Go to <a href="http://www.tumblr.com/oauth/apps" target="_blank">http://www.tumblr.com/oauth/apps</a>
 - Once signed in, click **+Register application**
 - Fill in all the details
-- For **Default Callback URL**: your BASE_URL value followed by /auth/tumblr/callback (i.e. `http://localhost:8080/auth/tumblr/callback` )
+- For **Default Callback URL**: your BASE_URL value followed by /auth/tumblr/callback (i.e. `http://localhost:3000/auth/tumblr/callback` )
 - Click **✔Register**
 - Copy and paste _OAuth consumer key_ and _OAuth consumer secret_ keys into `.env` file
 
@@ -398,7 +398,7 @@ Obtain SMTP credentials from a provider for transactional emails. Set the SMTP_U
 - If prompted, authorize the dashboard to access your twitch account
 - In the Console, click on Register Your Application
 - Enter the name of your application
-- Use OAuth Redirect URLs enter your BASE_URL value followed by /auth/twitch/callback (i.e. `http://localhost:8080/auth/twitch/callback` )
+- Use OAuth Redirect URLs enter your BASE_URL value followed by /auth/twitch/callback (i.e. `http://localhost:3000/auth/twitch/callback` )
 - Set Category to Website Integration and press the Create button
 - After the application has been created, click on the Manage button
 - Copy and paste _Client ID_ into `.env`
@@ -441,8 +441,8 @@ The OpenAI moderation API for checking harmful inputs is free to use as long as 
 - Sign in at <a href="https://developer.x.com/" target="_blank">https://developer.x.com/</a>
 - Start with the Free tier
 - Click **Create a new application**
-- Enter your application name, website and description. Set the website as your BASE_URL value (i.e. `http://localhost:8080`, etc).
-- For **Callback URL**: your BASE_URL value followed by /auth/x/callback (i.e. `http://localhost:8080/auth/x/callback` )
+- Enter your application name, website and description. Set the website as your BASE_URL value (i.e. `http://localhost:3000`, etc).
+- For **Callback URL**: your BASE_URL value followed by /auth/x/callback (i.e. `http://localhost:3000/auth/x/callback` )
 - Go to **Settings** tab
 - Under _Application Type_ select **Read and Write** access
 - Check the box **Allow this application to be used to Sign in with X**
@@ -759,7 +759,7 @@ And then create a route in `app.js`. I placed it right after the index controlle
 app.get('/escape-velocity', homeController.escapeVelocity);
 ```
 
-Restart the server (if you are not using **nodemon**); then you should see the new template at `http://localhost:8080/escape-velocity`
+Restart the server (if you are not using **nodemon**); then you should see the new template at `http://localhost:3000/escape-velocity`
 
 I will stop right here, but if you would like to use this template as more than just a single page, take a look at how these Pug templates work: `layout.pug` - base template, `index.pug` - home page, `partials/header.pug` - Bootstrap navbar, `partials/footer.pug` - sticky footer. You will have to manually break it apart into smaller pieces. Figure out which part of the template you want to keep the same on all pages - that's your new `layout.pug`.
 Then, each page that changes, be it `index.pug`, `about.pug`, `contact.pug`
@@ -1356,7 +1356,7 @@ docker-compose up web
 
 ```
 
-To view the app, find your docker IP address + port 8080 ( this will typically be `http://localhost:8080/` ). To use a port other than 8080, you would need to modify the port in app.js, Dockerfile, and docker-compose.yml.
+To view the app, find your docker IP address + port 3000 ( this will typically be `http://localhost:3000/` ). To use a port other than 3000, you would need to modify the port in app.js, Dockerfile, and docker-compose.yml.
 
 ## Deployment
 
